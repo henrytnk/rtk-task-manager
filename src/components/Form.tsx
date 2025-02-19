@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { addTask } from '../store/slices/taskManager';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
 
 const Form = () => {
   const [text, setText] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -9,6 +13,8 @@ const Form = () => {
 
   const handleFormSubmission = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(addTask(text)); 
+    setText('');
   }
 
   return (

@@ -1,13 +1,30 @@
-import React from 'react'
+import { useDispatch } from 'react-redux';
+import { removeTask, toggleCompleted } from '../store/slices/taskManager';
+import { Task } from '../types/task';
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 
-const List = () => {
+interface ListProps {
+  tasks: Task[];
+}
+
+const List = ({ tasks }: ListProps) => {
+  const dispatch = useDispatch();
+
   return (
     <ul>
-      <li>Item 1</li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-      <li>Item 4</li>
-      <li>Item 5</li>
+      {tasks.map(task => {
+        const { id, description, isCompleted } = task;
+
+        return (
+          <li key={id}>
+            {description}
+            <input type="checkbox" checked={isCompleted} onChange={() => dispatch(toggleCompleted(task))}/>
+            <button onClick={() => dispatch(removeTask(task))}>
+              <IoIosRemoveCircleOutline />
+            </button>
+          </li>
+        );
+      })}
     </ul>
   )
 }
